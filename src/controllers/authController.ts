@@ -19,7 +19,7 @@ export const register = async (req: Request, res: Response) => {
 
         const user = result.rows[0];
 
-        res.status(201).json({
+        res.status(200).json({
             message: "User registered sucessfully",
             user,
         });
@@ -55,9 +55,9 @@ export const login = async (req: Request, res: Response): Promise<any> => {
 
         const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, { expiresIn: '10h' });
 
+        let finalResult = {...user, token}
         res.status(200).json({
-            message: "User logged in successfully",
-            token,
+            user: finalResult
         });
     } catch (error) {
         res.status(500).json({
